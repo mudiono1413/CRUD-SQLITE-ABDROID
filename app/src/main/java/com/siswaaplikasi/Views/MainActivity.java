@@ -44,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
     EditText mTglLahir;
     @BindView(R.id.btnDate)
     ImageView mBtnDate;
+    @BindView(R.id.etNis)
+    EditText mEtNis;
+    @BindView(R.id.etNama)
+    EditText mEtNama;
+    String status, jk;
+    @BindView(R.id.cbAktif)
+    CheckBox mCbAktif;
+    @BindView(R.id.cbTdkAktif)
+    CheckBox mcbTdkAktif;
     private DatabaseHelper databaseHelper;
 
 
@@ -78,25 +87,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int id = mRgJk.getCheckedRadioButtonId();
-                switch (id){
-                    case R.id.rbP :
-                        Toast.makeText(MainActivity.this,"Clicked "+((RadioButton)findViewById(id)).getText(), Toast.LENGTH_SHORT).show();
-                        databaseHelper.addSiswa(1,"",1,1,"","","");
-
+                switch (id) {
+                    case R.id.rbP:
+//                        Toast.makeText(MainActivity.this,"Clicked "+((RadioButton)findViewById(id)).getText(), Toast.LENGTH_SHORT).show();
+                        jk = ((RadioButton) findViewById(id)).getText().toString();
                         break;
-                    case R.id.rbL :
-                        Toast.makeText(MainActivity.this,"Clicked "+((RadioButton)findViewById(id)).getText(), Toast.LENGTH_SHORT).show();
-                        databaseHelper.addSiswa(1,"",1,1,"","","");
-
+                    case R.id.rbL:
+//                        Toast.makeText(MainActivity.this,"Clicked "+((RadioButton)findViewById(id)).getText(), Toast.LENGTH_SHORT).show();
+                        jk = ((RadioButton) findViewById(id)).getText().toString();
                         break;
+                }
+                if (mCbAktif.isChecked()) {
+                    status = "Aktif";
+                } else {
+                    status = "Tidak Aktif";
+                }
+
+                if (mEtNis.getText().toString().isEmpty() || mEtNama.getText().toString().isEmpty() || status.isEmpty() || jk.isEmpty() || mSpRayon.getSelectedItem().equals("") || mSpRombel.getSelectedItem().equals("") || mTglLahir.getText().toString().isEmpty()) {
+                    databaseHelper.addSiswa(Integer.parseInt(mEtNis.getText().toString()), mEtNama.getText().toString(), mSpRayon.getSelectedItemPosition() + 1, mSpRombel.getSelectedItemPosition() + 1, jk, status, mTglLahir.getText().toString());
                 }
 
             }
         });
     }
 
-    private void getSpRombel(){
-        for (int i = 0; i <rombelList.size() ; i++) {
+    private void getSpRombel() {
+        for (int i = 0; i < rombelList.size(); i++) {
             listRembol.add(rombelList.get(i).getNama());
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this,
@@ -106,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void showDateDialog(){
+    private void showDateDialog() {
 
         /**
          * Calendar untuk mendapatkan tanggal sekarang
@@ -130,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 mTglLahir.setText(dateFormatter.format(newDate.getTime()));
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
         /**
          * Tampilkan DatePicker dialog
@@ -139,9 +155,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    private void getSpRayon(){
-        for (int i = 0; i <rayonList.size() ; i++) {
+    private void getSpRayon() {
+        for (int i = 0; i < rayonList.size(); i++) {
             listRayon.add(rayonList.get(i).getNama());
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this,
