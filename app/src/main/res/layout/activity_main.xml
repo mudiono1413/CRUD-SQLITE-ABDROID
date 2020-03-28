@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.MainActivity">
+
+    <TextView
+        android:id="@+id/lblnama"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Siswa"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etNama"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toRightOf="@id/lblnama"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cbAktif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Active"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etNama" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cbTdkAktif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tidak Aktif"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toRightOf="@id/cbAktif"
+        app:layout_constraintTop_toBottomOf="@id/etNama" />
+
+    <RadioGroup
+        android:id="@+id/rgJk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cbTdkAktif">
+
+        <RadioButton
+            android:id="@+id/rbP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Perempuan" />
+
+        <RadioButton
+            android:id="@+id/rbL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Laki Laki" />
+    </RadioGroup>
+
+    <Spinner
+        android:padding="20dp"
+        android:id="@+id/spRayon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/daftar_makanan"
+        app:layout_constraintTop_toBottomOf="@id/rgJk"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Spinner
+        android:padding="20dp"
+        android:id="@+id/spRombel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/daftar_makanan"
+        app:layout_constraintTop_toBottomOf="@id/spRayon"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+        android:id="@+id/btnSimpan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIMPAN"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

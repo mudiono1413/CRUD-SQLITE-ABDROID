@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Siswa Aplikasi</string>
+
+    <string-array name="daftar_makanan">
+        <item>Bakso</item>
+        <item>Ayam Goreng</item>
+        <item>Mie Rebus</item>
+        <item>Nasi Padang</item>
+        <item>Ikan Bakar</item>
+        <item>Seblak</item>
+        <item>Gorengan</item>
+        <item>Mie Ayam</item>
+    </string-array>
+</resources>
