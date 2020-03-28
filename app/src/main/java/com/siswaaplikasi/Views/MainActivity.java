@@ -2,21 +2,30 @@ package com.siswaaplikasi.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.siswaaplikasi.Model.RayonModel;
 import com.siswaaplikasi.R;
 import com.siswaaplikasi.Utils.database.DatabaseHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     Spinner mSpRombel;
     @BindView(R.id.rgJk)
     RadioGroup mRgJk;
+    @BindView(R.id.etTglLahir)
+    EditText mTglLahir;
+    @BindView(R.id.btnDate)
+    ImageView mBtnDate;
     private DatabaseHelper databaseHelper;
 
 
@@ -39,22 +52,44 @@ public class MainActivity extends AppCompatActivity {
     List<String> listRayon = new ArrayList<String>();
     List<String> listRembol = new ArrayList<String>();
 
+    private DatePickerDialog datePickerDialog;
+    private SimpleDateFormat dateFormatter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         databaseHelper = new DatabaseHelper(this);
         rayonList = databaseHelper.getAllRayon();
         rombelList = databaseHelper.getAllRombel();
         getSpRombel();
         getSpRayon();
 
+        mBtnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateDialog();
+            }
+        });
+
         mBtnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, RombelActivity.class);
-                startActivity(i);
+                int id = mRgJk.getCheckedRadioButtonId();
+                switch (id){
+                    case R.id.rbP :
+                        Toast.makeText(MainActivity.this,"Clicked "+((RadioButton)findViewById(id)).getText(), Toast.LENGTH_SHORT).show();
+                        databaseHelper.addSiswa(1,"",1,1,"","","");
+
+                        break;
+                    case R.id.rbL :
+                        Toast.makeText(MainActivity.this,"Clicked "+((RadioButton)findViewById(id)).getText(), Toast.LENGTH_SHORT).show();
+                        databaseHelper.addSiswa(1,"",1,1,"","","");
+
+                        break;
+                }
 
             }
         });
@@ -68,6 +103,39 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, listRembol);
         mSpRombel.setAdapter(dataAdapter);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    }
+
+
+    private void showDateDialog(){
+
+        /**
+         * Calendar untuk mendapatkan tanggal sekarang
+         */
+        Calendar newCalendar = Calendar.getInstance();
+
+        /**
+         * Initiate DatePicker dialog
+         */
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+
+                /**
+                 * Update TextView dengan tanggal yang kita pilih
+                 */
+                mTglLahir.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        /**
+         * Tampilkan DatePicker dialog
+         */
+        datePickerDialog.show();
     }
 
 
