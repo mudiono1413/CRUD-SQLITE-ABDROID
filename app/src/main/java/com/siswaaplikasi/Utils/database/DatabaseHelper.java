@@ -24,24 +24,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_TANGGAL_LAHIR = "tanggal_lahir";
     private static final String KEY_RAYON_ID = "rayon_id";
     private static final String KEY_ROMBEL_ID = "rombel_id";
-    private static final String KEY_JK = "rombel_id";
+    private static final String KEY_JK = "jenis_kelamin";
     private static final String KEY_STATUS = "status";
 
     private static final String CREATE_TABLE_SISWA = "CREATE TABLE " + TABLE_SISWA + "("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_NIS + " TEXT ,"
-            + KEY_NAMA + "TEXT,"
-            + KEY_RAYON_ID + "INTEGER,"
-            + KEY_ROMBEL_ID + "INETEGER,"
-            + KEY_JK + "TEXT,"
-            + KEY_STATUS + "TEXT,"
-            + KEY_TANGGAL_LAHIR + "TEXT);";
+            + KEY_NIS + " INTEGER ,"
+            + KEY_NAMA + " TEXT,"
+            + KEY_RAYON_ID + " INTEGER,"
+            + KEY_ROMBEL_ID + " INETEGER,"
+            + KEY_JK + " TEXT,"
+            + KEY_STATUS + " TEXT,"
+            + KEY_TANGGAL_LAHIR + " TEXT);";
 
     private static final String CREATE_TABLE_RAYON = "CREATE TABLE "
-            + TABLE_RAYON + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAMA + " TEXT );";
+            + TABLE_RAYON + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + KEY_NAMA + " TEXT );";
 
     private static final String CREATE_TABLE_ROMBEL = "CREATE TABLE "
-            + TABLE_ROMBEL + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAMA + " TEXT );";
+            + TABLE_ROMBEL + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + KEY_NAMA + " TEXT );";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -128,6 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void addSiswa(int nis, String nama, int rayon_id, int rombel_id, String jk, String status, String tgl_lahir) {
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues valuesSiswa = new ContentValues();
@@ -139,6 +142,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         valuesSiswa.put(KEY_STATUS, status);
         valuesSiswa.put(KEY_TANGGAL_LAHIR, tgl_lahir);
         db.insert(TABLE_SISWA, null, valuesSiswa);
+
+        Log.d("LOG"," DATA DI SAVE");
+
+
     }
 
 

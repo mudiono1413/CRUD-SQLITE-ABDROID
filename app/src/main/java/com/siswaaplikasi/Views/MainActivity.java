@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -104,7 +105,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (mEtNis.getText().toString().isEmpty() || mEtNama.getText().toString().isEmpty() || status.isEmpty() || jk.isEmpty() || mSpRayon.getSelectedItem().equals("") || mSpRombel.getSelectedItem().equals("") || mTglLahir.getText().toString().isEmpty()) {
+                    Log.d("LOG", " DATA " + " NIS " + mEtNis.getText().toString() + " NAMA " + mEtNama.getText().toString() + " STATUS" + status + " JK" + jk + " RAYON ID" + mSpRayon.getSelectedItem() + "ROMBEL ID " + mSpRombel.getSelectedItem() + "TGL " + mTglLahir.getText().toString());
+                    Toast.makeText(MainActivity.this, "Data Belum Lengkap" + " NIS " + mEtNis.getText().toString() + " NAMA " + mEtNama.getText().toString() + " STATUS" + status + " JK" + jk + " RAYON ID" + mSpRayon.getSelectedItem() + "ROMBEL ID " + mSpRombel.getSelectedItem() + "TGL " + mTglLahir.getText().toString(), Toast.LENGTH_LONG).show();
+                } else {
+
                     databaseHelper.addSiswa(Integer.parseInt(mEtNis.getText().toString()), mEtNama.getText().toString(), mSpRayon.getSelectedItemPosition() + 1, mSpRombel.getSelectedItemPosition() + 1, jk, status, mTglLahir.getText().toString());
+                    Toast.makeText(MainActivity.this, "Data Berhasil Disimpan", Toast.LENGTH_LONG).show();
+
                 }
 
             }
