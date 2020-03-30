@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         databaseHelper = new DatabaseHelper(this);
+        databaseHelper.getAllSiswa();
         rayonList = databaseHelper.getAllRayon();
         rombelList = databaseHelper.getAllRombel();
         getSpRombel();

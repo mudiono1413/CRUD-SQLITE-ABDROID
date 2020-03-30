@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         mBtnSiswa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                Intent i = new Intent(HomeActivity.this, DaftarSiswaActivity.class);
                 startActivity(i);
             }
         });

@@ -8,9 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.siswaaplikasi.Model.RayonModel;
-import com.siswaaplikasi.Model.RombelModel;
+import com.siswaaplikasi.Model.SiswaModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static String DATABASE_NAME = "siswa_database";
@@ -145,6 +146,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Log.d("LOG"," DATA DI SAVE");
 
+
+    }
+
+    public List<SiswaModel> getAllSiswa(){
+        List<SiswaModel> listSiswa = new ArrayList<>();
+        String MY_QUERY = "SELECT * FROM '" + TABLE_SISWA + "' a " +
+                "INNER JOIN '" + TABLE_RAYON + "' b ON a.'" + KEY_RAYON_ID + "'= b.'"+ KEY_ID +"'" +
+                "INNER JOIN '"+TABLE_ROMBEL +"' c ON a.'"+KEY_ROMBEL_ID+"' = c.'"+KEY_ID+"'";
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(MY_QUERY, null);
+        Log.d("LOG" ,"DATA SISWA " + c);
+
+        if (c.moveToFirst()){
+            do {
+               SiswaModel siswaModel = new SiswaModel();
+               siswaModel.setNis(c.getInt(c.getColumnIndex(KEY_NIS)));
+               siswaModel.setNama(c.getString(c.getColumnIndex(KEY_NAMA)));
+               siswaModel.setJenis_kelamin(c.getString(c.getColumnIndex(KEY_JK)));
+               siswaModel.setStatus(c.getString(c.getColumnIndex(KEY_STATUS)));
+               siswaModel.setTgl_lahir(c.getString(c.getColumnIndex(KEY_TANGGAL_LAHIR)));
+
+               listSiswa.add(siswaModel);
+
+            }while (c.moveToNext());
+
+        }
+
+        return listSiswa;
 
     }
 
