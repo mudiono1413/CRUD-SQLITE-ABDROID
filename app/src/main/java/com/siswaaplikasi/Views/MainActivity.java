@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.siswaaplikasi.Model.RayonModel;
+import com.siswaaplikasi.Model.SiswaModel;
 import com.siswaaplikasi.R;
 import com.siswaaplikasi.Utils.database.DatabaseHelper;
 
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     CheckBox mcbTdkAktif;
     private DatabaseHelper databaseHelper;
 
+    SiswaModel mSiswaModel;
+
 
     private List<RayonModel> rayonList = new ArrayList<>();
     private List<RayonModel> rombelList = new ArrayList<>();
@@ -71,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        mSiswaModel = ((SiswaModel)getIntent().getSerializableExtra("selectedItem"));
+        Log.d("LOG", "NAMA ITEM : " + mSiswaModel);
+        if (mSiswaModel != null){
+            mEtNis.setText(Integer.toString(mSiswaModel.getNis()));
+            mEtNama.setText(mSiswaModel.getNama());
+            mTglLahir.setText(mSiswaModel.getTgl_lahir());
+        }
         databaseHelper = new DatabaseHelper(this);
         databaseHelper.getAllSiswa();
         rayonList = databaseHelper.getAllRayon();
@@ -108,10 +118,17 @@ public class MainActivity extends AppCompatActivity {
                 if (mEtNis.getText().toString().isEmpty() || mEtNama.getText().toString().isEmpty() || status.isEmpty() || jk.isEmpty() || mSpRayon.getSelectedItem().equals("") || mSpRombel.getSelectedItem().equals("") || mTglLahir.getText().toString().isEmpty()) {
                     Log.d("LOG", " DATA " + " NIS " + mEtNis.getText().toString() + " NAMA " + mEtNama.getText().toString() + " STATUS" + status + " JK" + jk + " RAYON ID" + mSpRayon.getSelectedItem() + "ROMBEL ID " + mSpRombel.getSelectedItem() + "TGL " + mTglLahir.getText().toString());
                     Toast.makeText(MainActivity.this, "Data Belum Lengkap" + " NIS " + mEtNis.getText().toString() + " NAMA " + mEtNama.getText().toString() + " STATUS" + status + " JK" + jk + " RAYON ID" + mSpRayon.getSelectedItem() + "ROMBEL ID " + mSpRombel.getSelectedItem() + "TGL " + mTglLahir.getText().toString(), Toast.LENGTH_LONG).show();
+                    finish();
                 } else {
-
+                if (mSiswaModel !=null){
+                    databaseHelper.updateSiswa(mSiswaModel.getId(),Integer.parseInt(mEtNis.getText().toString()), mEtNama.getText().toString(), mSpRayon.getSelectedItemPosition() + 1, mSpRombel.getSelectedItemPosition() + 1, jk, status, mTglLahir.getText().toString());
+                    Toast.makeText(MainActivity.this, "Data Berhasil DiUbah", Toast.LENGTH_LONG).show();
+                }else {
                     databaseHelper.addSiswa(Integer.parseInt(mEtNis.getText().toString()), mEtNama.getText().toString(), mSpRayon.getSelectedItemPosition() + 1, mSpRombel.getSelectedItemPosition() + 1, jk, status, mTglLahir.getText().toString());
                     Toast.makeText(MainActivity.this, "Data Berhasil Disimpan", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+
 
                 }
 

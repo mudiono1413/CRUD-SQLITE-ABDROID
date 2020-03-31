@@ -147,6 +147,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("LOG"," DATA DI SAVE");
 
 
+    } public void updateSiswa(int id,int nis, String nama, int rayon_id, int rombel_id, String jk, String status, String tgl_lahir) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues valuesSiswa = new ContentValues();
+        valuesSiswa.put(KEY_NIS, nis);
+        valuesSiswa.put(KEY_NAMA, nama);
+        valuesSiswa.put(KEY_RAYON_ID, rayon_id);
+        valuesSiswa.put(KEY_ROMBEL_ID, rombel_id);
+        valuesSiswa.put(KEY_JK, jk);
+        valuesSiswa.put(KEY_STATUS, status);
+        valuesSiswa.put(KEY_TANGGAL_LAHIR, tgl_lahir);
+        db.update(TABLE_SISWA, valuesSiswa, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+
+        Log.d("LOG"," DATA DI SAVE");
+
+
     }
 
     public List<SiswaModel> getAllSiswa(){
@@ -163,6 +180,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()){
             do {
                SiswaModel siswaModel = new SiswaModel();
+               siswaModel.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                siswaModel.setNis(c.getInt(c.getColumnIndex(KEY_NIS)));
                siswaModel.setNama(c.getString(c.getColumnIndex(KEY_NAMA)));
                siswaModel.setJenis_kelamin(c.getString(c.getColumnIndex(KEY_JK)));

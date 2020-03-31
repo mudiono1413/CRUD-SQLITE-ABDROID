@@ -1,13 +1,17 @@
 package com.siswaaplikasi.Model;
 
-public class SiswaModel  {
+import java.io.Serializable;
+
+public class SiswaModel implements Serializable {
+    private int id;
     private int nis;
     private String nama;
     private  String jenis_kelamin;
     private String status;
     private String tgl_lahir;
 
-    public void SiswaModel(int nis, String nama , String jenis_kelamin, String status , String tgl_lahir){
+    public void SiswaModel(int id,int nis, String nama , String jenis_kelamin, String status , String tgl_lahir){
+        this.id = id;
         this.nis = nis;
         this.nama = nama;
         this.jenis_kelamin = jenis_kelamin;
@@ -53,5 +57,13 @@ public class SiswaModel  {
 
     public void setTgl_lahir(String tgl_lahir) {
         this.tgl_lahir = tgl_lahir;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

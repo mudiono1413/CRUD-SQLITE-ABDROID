@@ -16,13 +16,14 @@ import com.siswaaplikasi.Model.SiswaModel;
 import com.siswaaplikasi.R;
 import com.siswaaplikasi.Utils.database.DatabaseHelper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DaftarSiswaActivity extends AppCompatActivity  implements SiswaAdapter.Listener{
+public class DaftarSiswaActivity extends AppCompatActivity implements SiswaAdapter.Listener {
     @BindView(R.id.recyclerListSiswa)
     RecyclerView mRecyclerListSiswa;
     @BindView(R.id.btnTambah)
@@ -53,13 +54,19 @@ public class DaftarSiswaActivity extends AppCompatActivity  implements SiswaAdap
         });
 
 
-
     }
 
     @Override
     public void onClick(SiswaModel siswaModel) {
-        Log.d("LOG","MODEL " + siswaModel);
+        Log.d("LOG", "MODEL " + siswaModel);
         databaseHelper.deleteUSiswa(siswaModel.getNis());
         finish();
+    }
+
+    @Override
+    public void onClickUbah(SiswaModel siswaModel) {
+        Intent i = new Intent(DaftarSiswaActivity.this, MainActivity.class);
+        i.putExtra("selectedItem",(Serializable)siswaModel);
+        startActivity(i);
     }
 }

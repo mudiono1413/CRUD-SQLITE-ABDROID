@@ -32,6 +32,7 @@ public class SiswaAdapter extends RecyclerView.Adapter<SiswaAdapter.ViewHolder> 
 
     public interface Listener {
         void onClick(SiswaModel siswaModel);
+        void onClickUbah(SiswaModel siswaModel);
     }
 
 
@@ -57,6 +58,13 @@ public class SiswaAdapter extends RecyclerView.Adapter<SiswaAdapter.ViewHolder> 
                 mListener.onClick(siswaList.get(position));
             }
         });
+
+        holder.mBtnUbah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onClickUbah(siswaList.get(position));
+            }
+        });
     }
 
     @Override
@@ -77,6 +85,8 @@ public class SiswaAdapter extends RecyclerView.Adapter<SiswaAdapter.ViewHolder> 
         TextView mLblTglLahir;
         @BindView(R.id.btnHapus)
         ImageView mBtnHapus;
+        @BindView(R.id.btnUbah)
+        ImageView mBtnUbah;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
