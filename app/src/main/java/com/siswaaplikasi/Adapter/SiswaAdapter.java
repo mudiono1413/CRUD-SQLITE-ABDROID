@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,14 +19,22 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SiswaAdapter  extends RecyclerView.Adapter<SiswaAdapter.ViewHolder> {
+public class SiswaAdapter extends RecyclerView.Adapter<SiswaAdapter.ViewHolder> {
     private List<SiswaModel> siswaList = new ArrayList<>();
     private Context mCtx;
+    Listener mListener;
 
-    public SiswaAdapter(List<SiswaModel> siswaList , Context mCtx){
+    public SiswaAdapter(List<SiswaModel> siswaList, Context mCtx,Listener mListener) {
         this.siswaList = siswaList;
         this.mCtx = mCtx;
+        this.mListener = mListener;
     }
+
+    public interface Listener {
+        void onClick(SiswaModel siswaModel);
+    }
+
+
     @NonNull
     @Override
     public SiswaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,12 +45,18 @@ public class SiswaAdapter  extends RecyclerView.Adapter<SiswaAdapter.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SiswaAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SiswaAdapter.ViewHolder holder, final int position) {
         holder.mLblNis.setText(Integer.toString(siswaList.get(position).getNis()));
         holder.mLblNama.setText(siswaList.get(position).getNama());
         holder.mLblJk.setText(siswaList.get(position).getJenis_kelamin());
         holder.mLblStatus.setText(siswaList.get(position).getStatus());
         holder.mLblTglLahir.setText(siswaList.get(position).getTgl_lahir());
+        holder.mBtnHapus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onClick(siswaList.get(position));
+            }
+        });
     }
 
     @Override
@@ -60,6 +75,9 @@ public class SiswaAdapter  extends RecyclerView.Adapter<SiswaAdapter.ViewHolder>
         TextView mLblStatus;
         @BindView(R.id.lblTglLahir)
         TextView mLblTglLahir;
+        @BindView(R.id.btnHapus)
+        ImageView mBtnHapus;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

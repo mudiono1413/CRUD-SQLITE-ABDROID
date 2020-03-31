@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DaftarSiswaActivity extends AppCompatActivity {
+public class DaftarSiswaActivity extends AppCompatActivity  implements SiswaAdapter.Listener{
     @BindView(R.id.recyclerListSiswa)
     RecyclerView mRecyclerListSiswa;
     @BindView(R.id.btnTambah)
@@ -40,7 +41,7 @@ public class DaftarSiswaActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         databaseHelper = new DatabaseHelper(this);
         siswaModelList = databaseHelper.getAllSiswa();
-        siswaAdapter = new SiswaAdapter(siswaModelList, DaftarSiswaActivity.this);
+        siswaAdapter = new SiswaAdapter(siswaModelList, DaftarSiswaActivity.this, this);
         mRecyclerListSiswa.setLayoutManager(new LinearLayoutManager(DaftarSiswaActivity.this));
         mRecyclerListSiswa.setAdapter(siswaAdapter);
         mBtnTambah.setOnClickListener(new View.OnClickListener() {
@@ -55,4 +56,10 @@ public class DaftarSiswaActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(SiswaModel siswaModel) {
+        Log.d("LOG","MODEL " + siswaModel);
+        databaseHelper.deleteUSiswa(siswaModel.getNis());
+        finish();
+    }
 }

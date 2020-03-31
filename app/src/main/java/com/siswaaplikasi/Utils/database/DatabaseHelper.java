@@ -179,5 +179,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public void deleteUSiswa(int nis) {
+
+        // delete row in students table based on id
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //deleting from users table
+        db.delete(TABLE_SISWA, KEY_NIS + " = ?",new String[]{String.valueOf(nis)});
+
+
+    }
+
 
 }
