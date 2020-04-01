@@ -24,7 +24,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_NAMA = "nama";
     private static final String KEY_TANGGAL_LAHIR = "tanggal_lahir";
     private static final String KEY_RAYON_ID = "rayon_id";
+    private static final String KEY_RAYON_NAMA = "nama_rayon";
     private static final String KEY_ROMBEL_ID = "rombel_id";
+    private static final String KEY_ROMBEL_NAMA = "nama_rombel";
     private static final String KEY_JK = "jenis_kelamin";
     private static final String KEY_STATUS = "status";
 
@@ -131,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void addSiswa(int nis, String nama, int rayon_id, int rombel_id, String jk, String status, String tgl_lahir) {
-
+        Log.d("LOG","NAMA " +nama);
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues valuesSiswa = new ContentValues();
@@ -148,7 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     } public void updateSiswa(int id,int nis, String nama, int rayon_id, int rombel_id, String jk, String status, String tgl_lahir) {
-
+        Log.d("LOG","NAMA " +nama);
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues valuesSiswa = new ContentValues();
@@ -166,19 +168,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<SiswaModel> getAllSiswa(){
-        List<SiswaModel> listSiswa = new ArrayList<>();
-        String MY_QUERY = "SELECT * FROM '" + TABLE_SISWA + "' a " +
+    public ArrayList<SiswaModel> getAllSiswa(){
+        ArrayList<SiswaModel> listSiswa = new ArrayList<>();
+        String MY_QUERY = "SELECT a.id as id, a.nama as nama , a.nis as nis,a.jenis_kelamin, a.tanggal_lahir, a.status , b.nama as nama_rayon, c.nama as nama_rombel  FROM '" + TABLE_SISWA + "' a " +
                 "INNER JOIN '" + TABLE_RAYON + "' b ON a.'" + KEY_RAYON_ID + "'= b.'"+ KEY_ID +"'" +
                 "INNER JOIN '"+TABLE_ROMBEL +"' c ON a.'"+KEY_ROMBEL_ID+"' = c.'"+KEY_ID+"'";
 
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(MY_QUERY, null);
-        Log.d("LOG" ,"DATA SISWA " + c);
+
 
         if (c.moveToFirst()){
             do {
+                Log.d("LOG" ,"DATA SISWA " +c.getString(c.getColumnIndex(KEY_NAMA)));
                SiswaModel siswaModel = new SiswaModel();
                siswaModel.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                siswaModel.setNis(c.getInt(c.getColumnIndex(KEY_NIS)));

@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.siswaaplikasi.Adapter.SiswaAdapter;
 import com.siswaaplikasi.Model.RayonModel;
@@ -28,10 +32,12 @@ public class DaftarSiswaActivity extends AppCompatActivity implements SiswaAdapt
     RecyclerView mRecyclerListSiswa;
     @BindView(R.id.btnTambah)
     Button mBtnTambah;
+    @BindView(R.id.etSeacrh)
+    EditText metSearch;
 
     SiswaAdapter siswaAdapter;
 
-    private List<SiswaModel> siswaModelList = new ArrayList<>();
+    private ArrayList<SiswaModel> siswaModelList;
 
     DatabaseHelper databaseHelper;
 
@@ -50,6 +56,25 @@ public class DaftarSiswaActivity extends AppCompatActivity implements SiswaAdapt
             public void onClick(View v) {
                 Intent i = new Intent(DaftarSiswaActivity.this, MainActivity.class);
                 startActivity(i);
+            }
+        });
+        metSearch.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        metSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("LOG","QUERY " + s);
+                siswaAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
